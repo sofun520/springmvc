@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacGroupMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacGroup">
+		<id column="g_id" property="gId" jdbcType="INTEGER" />
+		<result column="g_name" property="gName" jdbcType="VARCHAR" />
+		<result column="g_status" property="gStatus" jdbcType="CHAR" />
+		<result column="g_add_id" property="gAddId" jdbcType="INTEGER" />
+		<result column="g_update_id" property="gUpdateId" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		g_id, g_name, g_status, g_add_id, g_update_id
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_group
+		where g_id = #{gId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_group
+		where 1=1
+		and g_status = '0'
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from jhac_group
+		where
+		g_id = #{gId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacGroup">
+		insert into jhac_group
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="gId != null">
+				g_id,
+			</if>
+			<if test="gName != null">
+				g_name,
+			</if>
+			<if test="gStatus != null">
+				g_status,
+			</if>
+			<if test="gAddId != null">
+				g_add_id,
+			</if>
+			<if test="gUpdateId != null">
+				g_update_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="gId != null">
+				#{gId,jdbcType=INTEGER},
+			</if>
+			<if test="gName != null">
+				#{gName,jdbcType=VARCHAR},
+			</if>
+			<if test="gStatus != null">
+				#{gStatus,jdbcType=CHAR},
+			</if>
+			<if test="gAddId != null">
+				#{gAddId,jdbcType=INTEGER},
+			</if>
+			<if test="gUpdateId != null">
+				#{gUpdateId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacGroup">
+		update jhac_group
+		<set>
+			<if test="gName != null">
+				g_name = #{gName,jdbcType=VARCHAR},
+			</if>
+			<if test="gStatus != null">
+				g_status = #{gStatus,jdbcType=CHAR},
+			</if>
+			<if test="gAddId != null">
+				g_add_id = #{gAddId,jdbcType=INTEGER},
+			</if>
+			<if test="gUpdateId != null">
+				g_update_id = #{gUpdateId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where g_id = #{gId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

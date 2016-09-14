@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacCustomerMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacCustomer">
+		<id column="c_id" property="cId" jdbcType="INTEGER" />
+		<result column="c_name" property="cName" jdbcType="VARCHAR" />
+		<result column="c_identity" property="cIdentity" jdbcType="VARCHAR" />
+		<result column="c_telephone" property="cTelephone" jdbcType="VARCHAR" />
+		<result column="c_address" property="cAddress" jdbcType="VARCHAR" />
+		<result column="c_out_id" property="cOutId" jdbcType="INTEGER" />
+		<result column="c_identity_img" property="cIdentityImg"
+			jdbcType="VARCHAR" />
+		<result column="c_status" property="cStatus" jdbcType="CHAR" />
+		<result column="c_create_id" property="cCreateId" jdbcType="INTEGER" />
+		<result column="c_create_time" property="cCreateTime" jdbcType="TIMESTAMP" />
+		<result column="c_update_id" property="cUpdateId" jdbcType="INTEGER" />
+		<result column="c_update_time" property="cUpdateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		c_id, c_name, c_identity, c_telephone, c_address, c_out_id,
+		c_identity_img,
+		c_status,
+		c_create_id, c_create_time, c_update_id,
+		c_update_time
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_customer
+		where c_id = #{cId,jdbcType=INTEGER}
+	</select>
+
+	<sql id="sql4where">
+		<if test="customer.cName != null and customer.cName != ''">
+			and c_name like '%${customer.cName}%'
+		</if>
+		<if test="customer.cIdentity != null and customer.cIdentity != ''">
+			and c_identity = #{customer.cIdentity,jdbcType=VARCHAR}
+		</if>
+		<if test="customer.cTelephone != null and customer.cTelephone != ''">
+			and c_telephone = #{customer.cTelephone,jdbcType=VARCHAR}
+		</if>
+	</sql>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_customer
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(*)
+		from jhac_customer
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from jhac_customer
+		where c_id = #{cId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacCustomer">
+		insert into jhac_customer
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="cId != null">
+				c_id,
+			</if>
+			<if test="cName != null">
+				c_name,
+			</if>
+			<if test="cIdentity != null">
+				c_identity,
+			</if>
+			<if test="cTelephone != null">
+				c_telephone,
+			</if>
+			<if test="cAddress != null">
+				c_address,
+			</if>
+			<if test="cOutId != null">
+				c_out_id,
+			</if>
+			<if test="cIdentityImg != null">
+				c_identity_img,
+			</if>
+			<if test="cStatus != null">
+				c_status,
+			</if>
+			<if test="cCreateId != null">
+				c_create_id,
+			</if>
+			<if test="cCreateTime != null">
+				c_create_time,
+			</if>
+			<if test="cUpdateId != null">
+				c_update_id,
+			</if>
+			<if test="cUpdateTime != null">
+				c_update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="cId != null">
+				#{cId,jdbcType=INTEGER},
+			</if>
+			<if test="cName != null">
+				#{cName,jdbcType=VARCHAR},
+			</if>
+			<if test="cIdentity != null">
+				#{cIdentity,jdbcType=VARCHAR},
+			</if>
+			<if test="cTelephone != null">
+				#{cTelephone,jdbcType=VARCHAR},
+			</if>
+			<if test="cAddress != null">
+				#{cAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="cOutId != null">
+				#{cOutId,jdbcType=INTEGER},
+			</if>
+			<if test="cIdentityImg != null">
+				#{cIdentityImg,jdbcType=VARCHAR},
+			</if>
+			<if test="cStatus != null">
+				#{cStatus,jdbcType=CHAR},
+			</if>
+			<if test="cCreateId != null">
+				#{cCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="cCreateTime != null">
+				#{cCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cUpdateId != null">
+				#{cUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="cUpdateTime != null">
+				#{cUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+
+	<update id="update" parameterType="cn.springmvc.model.JhacCustomer">
+		update jhac_customer
+		<set>
+			<if test="cName != null">
+				c_name = #{cName,jdbcType=VARCHAR},
+			</if>
+			<if test="cIdentity != null">
+				c_identity = #{cIdentity,jdbcType=VARCHAR},
+			</if>
+			<if test="cTelephone != null">
+				c_telephone = #{cTelephone,jdbcType=VARCHAR},
+			</if>
+			<if test="cAddress != null">
+				c_address = #{cAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="cOutId != null">
+				c_out_id = #{cOutId,jdbcType=INTEGER},
+			</if>
+			<if test="cIdentityImg != null">
+				c_identity_img = #{cIdentityImg,jdbcType=VARCHAR},
+			</if>
+			<if test="cStatus != null">
+				c_status = #{cStatus,jdbcType=CHAR},
+			</if>
+			<if test="cCreateId != null">
+				c_create_id = #{cCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="cCreateTime != null">
+				c_create_time = #{cCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="cUpdateId != null">
+				c_update_id = #{cUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="cUpdateTime != null">
+				c_update_time = #{cUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where c_id = #{cId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

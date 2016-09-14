@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacSaasLogMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacSaasLog">
+		<id column="sl_id" property="slId" jdbcType="INTEGER" />
+		<result column="sl_saas_id" property="slSaasId" jdbcType="INTEGER" />
+		<result column="sl_new_begindate" property="slNewBegindate"
+			jdbcType="TIMESTAMP" />
+		<result column="sl_old_expiredate" property="slOldExpiredate"
+			jdbcType="TIMESTAMP" />
+		<result column="sl_new_expiredate" property="slNewExpiredate"
+			jdbcType="TIMESTAMP" />
+		<result column="sl_status" property="slStatus" jdbcType="CHAR" />
+		<result column="sl_create_id" property="slCreateId" jdbcType="INTEGER" />
+		<result column="sl_create_time" property="slCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="sl_update_id" property="slUpdateId" jdbcType="INTEGER" />
+		<result column="sl_update_time" property="slUpdateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="sl_network" property="slNetwork" jdbcType="VARCHAR" />
+		<result column="sl_time_type" property="slTimeType" jdbcType="CHAR" />
+		<result column="sl_time_num" property="slTimeNum" jdbcType="INTEGER" />
+		<result column="sl_review_id" property="slReviewId" jdbcType="INTEGER" />
+		<result column="sl_review_result" property="slReviewResult"
+			jdbcType="CHAR" />
+		<result column="sl_review_reason" property="slReviewReason"
+			jdbcType="VARCHAR" />
+		<result column="sl_order" property="slOrder" jdbcType="VARCHAR" />
+
+		<association property="user" javaType="cn.springmvc.model.JhacUser">
+			<id column="u_id" property="uId" jdbcType="INTEGER" />
+			<result column="u_name" property="uName" jdbcType="VARCHAR" />
+			<result column="u_truename" property="uTruename" jdbcType="VARCHAR" />
+			<result column="u_telephone" property="uTelephone" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		sl_id, sl_saas_id, sl_new_begindate, sl_old_expiredate,
+		sl_new_expiredate,
+		sl_status,
+		sl_create_id, sl_create_time,
+		sl_update_id, sl_update_time, sl_network,
+		sl_time_type,
+		sl_time_num,
+		sl_review_id, sl_review_result, sl_review_reason, sl_order
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_saas_log
+		where sl_id = #{slId,jdbcType=INTEGER}
+	</select>
+
+	<sql id="sql4where">
+		<if test="saaslog.slNetwork != null and saaslog.slNetwork != ''">
+			and sl_network = #{saaslog.slNetwork}
+		</if>
+		<if test="saaslog.slOrder != null and saaslog.slOrder != ''">
+			and sl_order = #{saaslog.slOrder}
+		</if>
+		<if test="saaslog.slReviewResult != null and saaslog.slReviewResult != ''">
+			and sl_review_result = #{saaslog.slReviewResult}
+		</if>
+	</sql>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+		*
+		FROM
+		jhac_saas_log l
+		LEFT OUTER JOIN jhac_user u ON
+		l.sl_review_id = u.u_id
+		WHERE
+		1 = 1
+		and l.sl_status = '0'
+		<include refid="sql4where" />
+		<if test="pageSize != null and pageSize != ''">
+			limit #{startIndex},#{pageSize}
+		</if>
+	</select>
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		SELECT
+		count(*)
+		FROM
+		jhac_saas_log l
+		LEFT OUTER JOIN jhac_user u ON
+		l.sl_review_id = u.u_id
+		WHERE
+		1 = 1
+		and l.sl_status = '0'
+		<include refid="sql4where" />
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		update jhac_saas_log set sl_status = '1'
+		where sl_id = #{slId,jdbcType=INTEGER}
+	</delete>
+
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacSaasLog">
+		insert into jhac_saas_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="slId != null">
+				sl_id,
+			</if>
+			<if test="slSaasId != null">
+				sl_saas_id,
+			</if>
+			<if test="slNewBegindate != null">
+				sl_new_begindate,
+			</if>
+			<if test="slOldExpiredate != null">
+				sl_old_expiredate,
+			</if>
+			<if test="slNewExpiredate != null">
+				sl_new_expiredate,
+			</if>
+			<if test="slStatus != null">
+				sl_status,
+			</if>
+			<if test="slCreateId != null">
+				sl_create_id,
+			</if>
+			<if test="slCreateTime != null">
+				sl_create_time,
+			</if>
+			<if test="slUpdateId != null">
+				sl_update_id,
+			</if>
+			<if test="slUpdateTime != null">
+				sl_update_time,
+			</if>
+			<if test="slNetwork != null">
+				sl_network,
+			</if>
+			<if test="slTimeType != null">
+				sl_time_type,
+			</if>
+			<if test="slTimeNum != null">
+				sl_time_num,
+			</if>
+			<if test="slReviewId != null">
+				sl_review_id,
+			</if>
+			<if test="slReviewResult != null">
+				sl_review_result,
+			</if>
+			<if test="slReviewReason != null">
+				sl_review_reason,
+			</if>
+			<if test="slOrder != null">
+				sl_order,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="slId != null">
+				#{slId,jdbcType=INTEGER},
+			</if>
+			<if test="slSaasId != null">
+				#{slSaasId,jdbcType=INTEGER},
+			</if>
+			<if test="slNewBegindate != null">
+				#{slNewBegindate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slOldExpiredate != null">
+				#{slOldExpiredate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slNewExpiredate != null">
+				#{slNewExpiredate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slStatus != null">
+				#{slStatus,jdbcType=CHAR},
+			</if>
+			<if test="slCreateId != null">
+				#{slCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="slCreateTime != null">
+				#{slCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slUpdateId != null">
+				#{slUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="slUpdateTime != null">
+				#{slUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slNetwork != null">
+				#{slNetwork,jdbcType=VARCHAR},
+			</if>
+			<if test="slTimeType != null">
+				#{slTimeType,jdbcType=CHAR},
+			</if>
+			<if test="slTimeNum != null">
+				#{slTimeNum,jdbcType=INTEGER},
+			</if>
+			<if test="slReviewId != null">
+				#{slReviewId,jdbcType=INTEGER},
+			</if>
+			<if test="slReviewResult != null">
+				#{slReviewResult,jdbcType=CHAR},
+			</if>
+			<if test="slReviewReason != null">
+				#{slReviewReason,jdbcType=VARCHAR},
+			</if>
+			<if test="slOrder != null">
+				#{slOrder,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacSaasLog">
+		update jhac_saas_log
+		<set>
+			<if test="slSaasId != null">
+				sl_saas_id = #{slSaasId,jdbcType=INTEGER},
+			</if>
+			<if test="slNewBegindate != null">
+				sl_new_begindate = #{slNewBegindate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slOldExpiredate != null">
+				sl_old_expiredate =
+				#{slOldExpiredate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slNewExpiredate != null">
+				sl_new_expiredate =
+				#{slNewExpiredate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slStatus != null">
+				sl_status = #{slStatus,jdbcType=CHAR},
+			</if>
+			<if test="slCreateId != null">
+				sl_create_id = #{slCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="slCreateTime != null">
+				sl_create_time = #{slCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slUpdateId != null">
+				sl_update_id = #{slUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="slUpdateTime != null">
+				sl_update_time = #{slUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="slNetwork != null">
+				sl_network = #{slNetwork,jdbcType=VARCHAR},
+			</if>
+			<if test="slTimeType != null">
+				sl_time_type = #{slTimeType,jdbcType=CHAR},
+			</if>
+			<if test="slTimeNum != null">
+				sl_time_num = #{slTimeNum,jdbcType=INTEGER},
+			</if>
+			<if test="slReviewId != null">
+				sl_review_id = #{slReviewId,jdbcType=INTEGER},
+			</if>
+			<if test="slReviewResult != null">
+				sl_review_result = #{slReviewResult,jdbcType=CHAR},
+			</if>
+			<if test="slReviewReason != null">
+				sl_review_reason = #{slReviewReason,jdbcType=VARCHAR},
+			</if>
+			<if test="slOrder != null">
+				sl_order = #{slOrder,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where sl_id = #{slId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacOrderDetailMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacOrderDetail">
+		<id column="od_id" property="odId" jdbcType="INTEGER" />
+		<result column="od_order_id" property="odOrderId" jdbcType="VARCHAR" />
+		<result column="od_pc_id" property="odPcId" jdbcType="INTEGER" />
+		<result column="od_number" property="odNumber" jdbcType="INTEGER" />
+		<result column="od_status" property="odStatus" jdbcType="CHAR" />
+		<result column="od_create_id" property="odCreateId" jdbcType="INTEGER" />
+		<result column="od_create_time" property="odCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="od_update_id" property="odUpdateId" jdbcType="INTEGER" />
+		<result column="od_update_time" property="odUpdateTime"
+			jdbcType="TIMESTAMP" />
+
+		<association property="pc"
+			javaType="cn.springmvc.model.JhacProductClass">
+			<id column="pc_id" property="pcId" jdbcType="INTEGER" />
+			<result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+			<result column="pc_xinghao" property="pcXinghao" jdbcType="VARCHAR" />
+			<result column="pc_price" property="pcPrice" jdbcType="DECIMAL" />
+		</association>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		od_id, od_order_id, od_pc_id, od_number, od_status,
+		od_create_id,
+		od_create_time,
+		od_update_id, od_update_time
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_order_detail
+		where od_id = #{odId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+			*
+		FROM
+			`jhac_order_detail` od
+		LEFT OUTER JOIN jhac_product_class pc ON od.od_pc_id = pc.pc_id
+		where 1=1
+		<if test="odOrderId != null and odOrderId != ''">
+			and od_order_id = #{odOrderId}
+		</if>
+		and od_status = '0'
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		update jhac_order_detail set
+		od_status ='1'
+		where od_id = #{odId,jdbcType=INTEGER}
+	</delete>
+
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacOrderDetail">
+		insert into jhac_order_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="odId != null">
+				od_id,
+			</if>
+			<if test="odOrderId != null">
+				od_order_id,
+			</if>
+			<if test="odPcId != null">
+				od_pc_id,
+			</if>
+			<if test="odNumber != null">
+				od_number,
+			</if>
+			<if test="odStatus != null">
+				od_status,
+			</if>
+			<if test="odCreateId != null">
+				od_create_id,
+			</if>
+			<if test="odCreateTime != null">
+				od_create_time,
+			</if>
+			<if test="odUpdateId != null">
+				od_update_id,
+			</if>
+			<if test="odUpdateTime != null">
+				od_update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="odId != null">
+				#{odId,jdbcType=INTEGER},
+			</if>
+			<if test="odOrderId != null">
+				#{odOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="odPcId != null">
+				#{odPcId,jdbcType=INTEGER},
+			</if>
+			<if test="odNumber != null">
+				#{odNumber,jdbcType=INTEGER},
+			</if>
+			<if test="odStatus != null">
+				#{odStatus,jdbcType=CHAR},
+			</if>
+			<if test="odCreateId != null">
+				#{odCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="odCreateTime != null">
+				#{odCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="odUpdateId != null">
+				#{odUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="odUpdateTime != null">
+				#{odUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacOrderDetail">
+		update jhac_order_detail
+		<set>
+			<if test="odOrderId != null">
+				od_order_id = #{odOrderId,jdbcType=VARCHAR},
+			</if>
+			<if test="odPcId != null">
+				od_pc_id = #{odPcId,jdbcType=INTEGER},
+			</if>
+			<if test="odNumber != null">
+				od_number = #{odNumber,jdbcType=INTEGER},
+			</if>
+			<if test="odStatus != null">
+				od_status = #{odStatus,jdbcType=CHAR},
+			</if>
+			<if test="odCreateId != null">
+				od_create_id = #{odCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="odCreateTime != null">
+				od_create_time = #{odCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="odUpdateId != null">
+				od_update_id = #{odUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="odUpdateTime != null">
+				od_update_time = #{odUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where od_id = #{odId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

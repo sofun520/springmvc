@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacOrderMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacOrder">
+		<id column="o_id" property="oId" jdbcType="INTEGER" />
+		<result column="o_name" property="oName" jdbcType="VARCHAR" />
+		<result column="o_code" property="oCode" jdbcType="VARCHAR" />
+		<result column="o_status" property="oStatus" jdbcType="CHAR" />
+		<result column="o_network" property="oNetwork" jdbcType="VARCHAR" />
+		<result column="o_create_id" property="oCreateId" jdbcType="INTEGER" />
+		<result column="o_create_time" property="oCreateTime" jdbcType="TIMESTAMP" />
+		<result column="o_update_id" property="oUpdateId" jdbcType="INTEGER" />
+		<result column="o_update_time" property="oUpdateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<resultMap id="unionMap" type="cn.springmvc.model.JhacOrder">
+		<id column="o_id" property="oId" jdbcType="INTEGER" />
+		<result column="o_name" property="oName" jdbcType="VARCHAR" />
+		<result column="o_code" property="oCode" jdbcType="VARCHAR" />
+		<result column="o_status" property="oStatus" jdbcType="CHAR" />
+		<result column="o_network" property="oNetwork" jdbcType="VARCHAR" />
+		<result column="o_create_id" property="oCreateId" jdbcType="INTEGER" />
+		<result column="o_create_time" property="oCreateTime" jdbcType="TIMESTAMP" />
+		<result column="o_update_id" property="oUpdateId" jdbcType="INTEGER" />
+		<result column="o_update_time" property="oUpdateTime" jdbcType="TIMESTAMP" />
+		
+		<association property="network" javaType="cn.springmvc.model.JhacNetwork">
+			<id column="n_id" property="nId" jdbcType="INTEGER" />
+			<result column="n_name" property="nName" jdbcType="VARCHAR" />
+			<result column="n_code" property="nCode" jdbcType="VARCHAR" />
+			<result column="n_leader" property="nLeader" jdbcType="VARCHAR" />
+			<result column="n_leader_telphone" property="nLeaderTelphone"
+				jdbcType="VARCHAR" />
+		</association>
+		
+		<association property="user" javaType="cn.springmvc.model.JhacUser">
+			<id column="u_id" property="uId" jdbcType="INTEGER" />
+			<result column="u_name" property="uName" jdbcType="VARCHAR" />
+			<result column="u_truename" property="uTruename" jdbcType="VARCHAR" />
+			<result column="u_telephone" property="uTelephone" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		o_id, o_name, o_code, o_status, o_network, o_create_id,
+		o_create_time,
+		o_update_id,
+		o_update_time
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_order
+		where o_id = #{oId,jdbcType=INTEGER}
+	</select>
+
+	<sql id="sql4where">
+		<if test="order.oName != null and order.oName != ''">
+			and o_name = #{order.oName}
+		</if>
+		<if test="order.oStatus != null and order.oStatus != ''">
+			and o_status = #{order.oStatus}
+		</if>
+		<if test="order.oCode != null and order.oCode != ''">
+			and o_code = #{order.oCode}
+		</if>
+		<if test="order.oNetwork != null and order.oNetwork != ''">
+			and o_network = #{order.oNetwork}
+		</if>
+	</sql>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_order
+		where 1=1
+		<include refid="sql4where" />
+		<if test="pageSize != null and pageSize != ''">
+			limit #{startIndex},#{pageSize}
+		</if>
+	</select>
+
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(*)
+		from jhac_order
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+	
+	
+	<select id="unionQuery" resultMap="unionMap" parameterType="java.util.Map">
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					`jhac_order` o,
+					jhac_network n
+				WHERE
+					o.o_network = n.n_code
+				<if test="odOrderId != null and odOrderId != ''">
+					and o.o_code = #{odOrderId}
+				</if>
+			) AS od
+		LEFT OUTER JOIN jhac_user u ON od.o_update_id = u.u_id
+	</select>
+	
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		update jhac_order set o_status = '4'
+		where
+		o_id = #{oId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacOrder">
+		insert into jhac_order
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="oId != null">
+				o_id,
+			</if>
+			<if test="oName != null">
+				o_name,
+			</if>
+			<if test="oCode != null">
+				o_code,
+			</if>
+			<if test="oStatus != null">
+				o_status,
+			</if>
+			<if test="oNetwork != null">
+				o_network,
+			</if>
+			<if test="oCreateId != null">
+				o_create_id,
+			</if>
+			<if test="oCreateTime != null">
+				o_create_time,
+			</if>
+			<if test="oUpdateId != null">
+				o_update_id,
+			</if>
+			<if test="oUpdateTime != null">
+				o_update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="oId != null">
+				#{oId,jdbcType=INTEGER},
+			</if>
+			<if test="oName != null">
+				#{oName,jdbcType=VARCHAR},
+			</if>
+			<if test="oCode != null">
+				#{oCode,jdbcType=VARCHAR},
+			</if>
+			<if test="oStatus != null">
+				#{oStatus,jdbcType=CHAR},
+			</if>
+			<if test="oNetwork != null">
+				#{oNetwork,jdbcType=VARCHAR},
+			</if>
+			<if test="oCreateId != null">
+				#{oCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="oCreateTime != null">
+				#{oCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="oUpdateId != null">
+				#{oUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="oUpdateTime != null">
+				#{oUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacOrder">
+		update jhac_order
+		<set>
+			<if test="oName != null">
+				o_name = #{oName,jdbcType=VARCHAR},
+			</if>
+			<if test="oCode != null">
+				o_code = #{oCode,jdbcType=VARCHAR},
+			</if>
+			<if test="oStatus != null">
+				o_status = #{oStatus,jdbcType=CHAR},
+			</if>
+			<if test="oNetwork != null">
+				o_network = #{oNetwork,jdbcType=VARCHAR},
+			</if>
+			<if test="oCreateId != null">
+				o_create_id = #{oCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="oCreateTime != null">
+				o_create_time = #{oCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="oUpdateId != null">
+				o_update_id = #{oUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="oUpdateTime != null">
+				o_update_time = #{oUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where o_id = #{oId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

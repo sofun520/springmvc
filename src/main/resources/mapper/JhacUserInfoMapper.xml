@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacUserInfoMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacUserInfo">
+		<id column="ui_id" property="uiId" jdbcType="INTEGER" />
+		<result column="ui_user_id" property="uiUserId" jdbcType="INTEGER" />
+		<result column="ui_birthday" property="uiBirthday" jdbcType="VARCHAR" />
+		<result column="ui_sex" property="uiSex" jdbcType="CHAR" />
+		<result column="ui_entry_date" property="uiEntryDate" jdbcType="TIMESTAMP" />
+		<result column="ui_department" property="uiDepartment"
+			jdbcType="VARCHAR" />
+		<result column="ui_leader" property="uiLeader" jdbcType="VARCHAR" />
+		<result column="ui_job" property="uiJob" jdbcType="VARCHAR" />
+		<result column="ui_address" property="uiAddress" jdbcType="VARCHAR" />
+
+		<association property="user" javaType="cn.springmvc.model.JhacUser">
+			<id column="u_id" property="uId" jdbcType="INTEGER" />
+			<result column="u_name" property="uName" jdbcType="VARCHAR" />
+			<result column="u_truename" property="uTruename" jdbcType="VARCHAR" />
+			<result column="u_telephone" property="uTelephone" jdbcType="VARCHAR" />
+			<result column="u_email" property="uEmail" jdbcType="VARCHAR" />
+			<result column="u_role_id" property="uRoleId" jdbcType="INTEGER" />
+			<result column="u_lastlogin_time" property="uLastloginTime"
+				jdbcType="TIMESTAMP" />
+			<result column="u_register_time" property="uRegisterTime"
+				jdbcType="TIMESTAMP" />
+			<result column="u_network_id" property="uNetworkId" jdbcType="INTEGER" />
+		</association>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ui_id, ui_user_id, ui_birthday, ui_sex, ui_entry_date,
+		ui_department,
+		ui_leader,
+		ui_job, ui_address
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_user_info
+		where ui_id = #{uiId,jdbcType=INTEGER}
+	</select>
+
+	<sql id="sql4where">
+		<if test="truename != null and truename != ''">
+			and u.u_truename = #{truename}
+		</if>
+		<if test="telephone != null and telephone != ''">
+			and u.u_telephone = #{telephone}
+		</if>
+		<if test="email != null and email != ''">
+			and u.u_email = #{email}
+		</if>
+		<if test="leader != null and leader != ''">
+			and ui_leader = #{leader}
+		</if>
+		<if test="networkCode != null and networkCode != ''">
+			and u.u_network_code = #{networkCode}
+		</if>
+	</sql>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+		*
+		FROM
+		`jhac_user_info` ui,
+		jhac_user u
+		WHERE
+		ui.ui_user_id = u.u_id
+		<include refid="sql4where" />
+		<if test="pageSize != null and pageSize != ''">
+			limit #{startIndex},#{pageSize}
+		</if>
+	</select>
+
+	<select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		`jhac_user_info` ui,
+		jhac_user u
+		WHERE
+		ui.ui_user_id =
+		u.u_id
+		<include refid="sql4where" />
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from jhac_user_info
+		where ui_id = #{uiId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacUserInfo">
+		insert into jhac_user_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uiId != null">
+				ui_id,
+			</if>
+			<if test="uiUserId != null">
+				ui_user_id,
+			</if>
+			<if test="uiBirthday != null">
+				ui_birthday,
+			</if>
+			<if test="uiSex != null">
+				ui_sex,
+			</if>
+			<if test="uiEntryDate != null">
+				ui_entry_date,
+			</if>
+			<if test="uiDepartment != null">
+				ui_department,
+			</if>
+			<if test="uiLeader != null">
+				ui_leader,
+			</if>
+			<if test="uiJob != null">
+				ui_job,
+			</if>
+			<if test="uiAddress != null">
+				ui_address,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uiId != null">
+				#{uiId,jdbcType=INTEGER},
+			</if>
+			<if test="uiUserId != null">
+				#{uiUserId,jdbcType=INTEGER},
+			</if>
+			<if test="uiBirthday != null">
+				#{uiBirthday,jdbcType=VARCHAR},
+			</if>
+			<if test="uiSex != null">
+				#{uiSex,jdbcType=CHAR},
+			</if>
+			<if test="uiEntryDate != null">
+				#{uiEntryDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="uiDepartment != null">
+				#{uiDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="uiLeader != null">
+				#{uiLeader,jdbcType=VARCHAR},
+			</if>
+			<if test="uiJob != null">
+				#{uiJob,jdbcType=VARCHAR},
+			</if>
+			<if test="uiAddress != null">
+				#{uiAddress,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacUserInfo">
+		update jhac_user_info
+		<set>
+			<if test="uiUserId != null">
+				ui_user_id = #{uiUserId,jdbcType=INTEGER},
+			</if>
+			<if test="uiBirthday != null">
+				ui_birthday = #{uiBirthday,jdbcType=VARCHAR},
+			</if>
+			<if test="uiSex != null">
+				ui_sex = #{uiSex,jdbcType=CHAR},
+			</if>
+			<if test="uiEntryDate != null">
+				ui_entry_date = #{uiEntryDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="uiDepartment != null">
+				ui_department = #{uiDepartment,jdbcType=VARCHAR},
+			</if>
+			<if test="uiLeader != null">
+				ui_leader = #{uiLeader,jdbcType=VARCHAR},
+			</if>
+			<if test="uiJob != null">
+				ui_job = #{uiJob,jdbcType=VARCHAR},
+			</if>
+			<if test="uiAddress != null">
+				ui_address = #{uiAddress,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ui_id = #{uiId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

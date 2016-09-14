@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacUserMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacUser">
+		<id column="u_id" property="uId" jdbcType="INTEGER" />
+		<result column="u_name" property="uName" jdbcType="VARCHAR" />
+		<result column="u_password" property="uPassword" jdbcType="VARCHAR" />
+		<result column="u_truename" property="uTruename" jdbcType="VARCHAR" />
+		<result column="u_telephone" property="uTelephone" jdbcType="VARCHAR" />
+		<result column="u_email" property="uEmail" jdbcType="VARCHAR" />
+		<result column="u_role_id" property="uRoleId" jdbcType="INTEGER" />
+		<result column="u_lastlogin_time" property="uLastloginTime"
+			jdbcType="TIMESTAMP" />
+		<result column="u_register_time" property="uRegisterTime"
+			jdbcType="TIMESTAMP" />
+		<result column="u_network_code" property="uNetworkCode"
+			jdbcType="VARCHAR" />
+
+		<association property="network" javaType="cn.springmvc.model.JhacNetwork">
+			<id column="n_id" property="nId" jdbcType="INTEGER" />
+			<result column="n_name" property="nName" jdbcType="VARCHAR" />
+			<result column="n_code" property="nCode" jdbcType="VARCHAR" />
+			<result column="n_leader" property="nLeader" jdbcType="VARCHAR" />
+			<result column="n_leader_telphone" property="nLeaderTelphone"
+				jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		u_id, u_name, u_password, u_truename, u_telephone, u_email,
+		u_role_id,
+		u_lastlogin_time,
+		u_register_time, u_network_code
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_user
+		where u_id = #{uId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+		*
+		FROM
+		`jhac_user` u,
+		jhac_network n
+		WHERE
+		u.u_network_code = n.n_code
+		<if test="uName != null and uName != ''">
+			and u.u_name = #{uName}
+		</if>
+		<if test="uPassword != null and uPassword != ''">
+			and u.u_password = #{uPassword}
+		</if>
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from jhac_user
+		where
+		u_id = #{uId,jdbcType=INTEGER}
+	</delete>
+
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacUser">
+		insert into jhac_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uId != null">
+				u_id,
+			</if>
+			<if test="uName != null">
+				u_name,
+			</if>
+			<if test="uPassword != null">
+				u_password,
+			</if>
+			<if test="uTruename != null">
+				u_truename,
+			</if>
+			<if test="uTelephone != null">
+				u_telephone,
+			</if>
+			<if test="uEmail != null">
+				u_email,
+			</if>
+			<if test="uRoleId != null">
+				u_role_id,
+			</if>
+			<if test="uLastloginTime != null">
+				u_lastlogin_time,
+			</if>
+			<if test="uRegisterTime != null">
+				u_register_time,
+			</if>
+			<if test="uNetworkCode != null">
+				u_network_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uId != null">
+				#{uId,jdbcType=INTEGER},
+			</if>
+			<if test="uName != null">
+				#{uName,jdbcType=VARCHAR},
+			</if>
+			<if test="uPassword != null">
+				#{uPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="uTruename != null">
+				#{uTruename,jdbcType=VARCHAR},
+			</if>
+			<if test="uTelephone != null">
+				#{uTelephone,jdbcType=VARCHAR},
+			</if>
+			<if test="uEmail != null">
+				#{uEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="uRoleId != null">
+				#{uRoleId,jdbcType=INTEGER},
+			</if>
+			<if test="uLastloginTime != null">
+				#{uLastloginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="uRegisterTime != null">
+				#{uRegisterTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="uNetworkCode != null">
+				#{uNetworkCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="update" parameterType="cn.springmvc.model.JhacUser">
+		update jhac_user
+		<set>
+			<if test="uName != null">
+				u_name = #{uName,jdbcType=VARCHAR},
+			</if>
+			<if test="uPassword != null">
+				u_password = #{uPassword,jdbcType=VARCHAR},
+			</if>
+			<if test="uTruename != null">
+				u_truename = #{uTruename,jdbcType=VARCHAR},
+			</if>
+			<if test="uTelephone != null">
+				u_telephone = #{uTelephone,jdbcType=VARCHAR},
+			</if>
+			<if test="uEmail != null">
+				u_email = #{uEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="uRoleId != null">
+				u_role_id = #{uRoleId,jdbcType=INTEGER},
+			</if>
+			<if test="uLastloginTime != null">
+				u_lastlogin_time = #{uLastloginTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="uRegisterTime != null">
+				u_register_time = #{uRegisterTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="uNetworkCode != null">
+				u_network_code = #{uNetworkCode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where u_id = #{uId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

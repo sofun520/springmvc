@@ -1,0 +1,796 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+body {
+    line-height: 1;
+    font-family: "Microsoft Yahei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+ol, ul {
+    list-style: none;
+}
+blockquote, q {
+    quotes: none;
+}
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+table {
+    border-spacing: 0;
+}
+header {
+    color: #FFF;
+    padding: 0;
+    height: 80px;
+}
+header .container {
+    height: 100%;
+}
+.container {
+    width: 1180px;
+    margin-right: auto;
+    margin-left: auto;
+    *zoom: 1;
+}
+.container:before,
+.container:after {
+    display: table;
+    content: "";
+}
+.container:after {
+    clear: both;
+}
+body {
+    background: #FFF;
+}
+header {
+    height: 72px;
+    border-bottom: 1px solid #E5E5E5;
+}
+header .logo {
+    background: url(../img/logo.png) no-repeat;
+    float: left;
+    margin-top: 14px;
+}
+header img {
+    margin-top: 29px;
+}
+header .back {
+    line-height: 72px;
+    float: right;
+    color: #A0A0A0;
+    font-size: 12px;
+    text-decoration: none;
+}
+header .back:hover {
+    color: #707070;
+}
+header .bae-auth-title {
+    line-height: 72px;
+    color: #000;
+    font-size: 21px;
+    padding-left: 20px;
+}
+footer {
+    padding: 0;
+}
+.bce-login {
+    min-height: 500px;
+}
+.bce-login-wrap {
+    max-width: 1600px;
+    margin: 0 auto;
+    min-height: 500px;
+    background: url(../img/banner0-bg.png) -480px top no-repeat;
+}
+.bce-login-inner {
+    position: relative;
+    width: 1180px;
+    min-height: 500px;
+    margin: 0 auto;
+    padding-bottom: 20px;
+    overflow: hidden;
+}
+.bce-login-inner img.banner {
+    width: 673px;
+    height: 397px;
+    background: url(../img/login-banner.png) 0 0 no-repeat;
+    margin-left: 27px;
+    margin-top: 82px;
+}
+.bce-login-inner img.banner.bae-auth {
+    background: url(../img/login-banner.png) 0 0 no-repeat;
+}
+.login-box {
+    width: 38px;
+    margin-left: 740px;
+    margin-top: -405px;
+}
+#login .tip-wrap {
+    width: 380px;
+    padding-top: 17px;
+    padding-bottom: 15px;
+    background: #FFF;
+}
+#login .tip-wrap p {
+    width: 298px;
+    margin: 0 auto;
+    border-top: 1px solid #E5E5E5;
+    padding-top: 10px;
+    font-size: 12px;
+    color: #333;
+    line-height: 20px;
+    font-family: Arial, "Lantinghei SC", "Microsoft Yahei", "Hiragino Sans GB", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.tip-wrap p font {
+    font-weight: bold;
+}
+#login {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+#login .login {
+    width: 380px;
+    position: static;
+}
+#login .login-shadow {
+    display: none;
+}
+#login .watermark {
+    display: none;
+}
+#login .tang-pass-login {
+    width: 380px;
+    margin: 0;
+}
+#login .change-login {
+    height: 50px;
+    background: #FFF;
+}
+#login .change-login div {
+    display: block;
+    position: static;
+    height: 100%;
+}
+#login .change-login a {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    height: 48px;
+    width: 150px;
+    line-height: 48px;
+    text-align: center;
+    color: #333;
+    outline: none;
+    border-bottom: 1px solid #EEE;
+    margin: 0 40px 0 0;
+}
+#login .change-login a:hover {
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-left-radius: 0;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-right-radius: 3px;
+    color: #09f;
+}
+#login .change-login a.select {
+    height: 47px;
+    background: #FFF;
+    border-bottom: 2px solid #09f;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius-topleft: 0;
+    border-top-left-radius: 0;
+    -webkit-border-top-right-radius: 3px;
+    -moz-border-radius-topright: 3px;
+    border-top-right-radius: 3px;
+}
+#login .change-login a.select {
+    background: #FFF;
+}
+#login .change-login a.passport-account.select {
+    -webkit-border-top-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 0;
+    -moz-border-radius-topright: 0;
+    border-top-right-radius: 0;
+}
+#login .change-login a.passport-account {
+    width: 149px;
+    margin: 0 0 0 40px;
+    padding: 0;
+}
+#login .change-login a.passport-account:hover {
+    -webkit-border-top-left-radius: 3px;
+    -moz-border-radius-topleft: 3px;
+    border-top-left-radius: 3px;
+    -webkit-border-top-right-radius: 0;
+    -moz-border-radius-topright: 0;
+    border-top-right-radius: 0;
+}
+#login a.select span {
+    display: none;
+}
+#login #common-login {
+    margin-top: 6px;
+}
+#login #common-login form {
+    background: #FFF;
+    padding-top: 41px;
+    -webkit-border-bottom-right-radius: 3px;
+    -moz-border-radius-bottomright: 3px;
+    border-bottom-right-radius: 3px;
+    -webkit-border-bottom-left-radius: 3px;
+    -moz-border-radius-bottomleft: 3px;
+    border-bottom-left-radius: 3px;
+    margin: 0;
+}
+#login .pass-form-item-memberPass {
+    display: none;
+}
+#login .pass-form-item-submit {
+    background: #FFF;
+    text-align: left;
+}
+#login .login-action {
+    background: #FFF;
+    border-top: none;
+    padding-top: 10px;
+}
+#login .uc-common-login-small {
+    border: 2px solid #e5e5e5;
+    box-shadow: none;
+}
+#login .uc-common-login-small .pass-form-item-userName,
+#login .uc-common-login-small .pass-form-item-password,
+#login .uc-common-login-small .account,
+#login .uc-common-login-small .password {
+    width: 298px;
+    height: 38px;
+    border: 1px solid #CCC;
+    margin: 0 auto 20px auto;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+#login .uc-common-login-small .pass-form-item-userName input,
+#login .uc-common-login-small .pass-form-item-password input,
+#login .uc-common-login-small .account input,
+#login .uc-common-login-small .password input {
+    height: 28px;
+    width: 251px;
+    line-height: 28px;
+}
+#login .uc-common-login-small .pass-form-item-userName label,
+#login .uc-common-login-small .pass-form-item-password label,
+#login .uc-common-login-small .account span,
+#login .uc-common-login-small .password span {
+    width: 12px;
+    height: 13px;
+    margin-top: 12px;
+    background: url(../img/icons.png) no-repeat;
+}
+#login .uc-common-login-small .pass-form-item-userName label,
+#login .uc-common-login-small .account span {
+    background-position: 0 -15px;
+}
+#login .uc-common-login-small .pass-form-item-password label,
+#login .uc-common-login-small .password span {
+    background-position: -13px -15px;
+}
+#login .uc-common-login-small .pass-form-item-userName:hover,
+#login .uc-common-login-small .pass-form-item-password:hover,
+#login .uc-common-login-small .account:hover,
+#login .uc-common-login-small .password:hover {
+    border-color: #249CFA;
+}
+#login .uc-common-login-small .pass-form-item-userName:hover label,
+#login .uc-common-login-small .account:hover span {
+    background-position: 0 0;
+}
+#login .uc-common-login-small .pass-form-item-password:hover label,
+#login .uc-common-login-small .password:hover span {
+    background-position: -13px 0;
+}
+#login .uc-common-login-small .account,
+#login .uc-common-login-small .password {
+    margin-bottom: 0;
+}
+#login .uc-common-login-small .token {
+    width: 298px;
+    margin: 0 auto;
+}
+#login .uc-common-login-small .token input {
+    border: 1px solid #CCC;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+#login .uc-common-login-small .token input:hover {
+    border-color: #249CFA;
+}
+#login .uc-common-login-small .pass-generalErrorWrapper {
+    top: 15px;
+    left: 40px;
+}
+#login .uc-common-login-small .error {
+    height: 20px;
+    line-height: 20px;
+    width: 300px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+#login .uc-common-login-small .safe-input {
+    width: 260px;
+    height: 100%;
+}
+#login .pass-button-submit, #login .submit {
+    margin: 0 auto;
+    display: block;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+    width: 300px;
+    height: 40px;
+    font-size: 16px;
+
+    color: #FFF;
+    text-align: center;
+    text-decoration: none;
+    background: #108cee;
+    border: none;
+    background-image: -webkit-linear-gradient(top, #108cee, #0765e4);
+    background-image: -moz-linear-gradient(top, #108cee, #0765e4);
+    background-image: -moz-linear-gradient(to bottom, #108cee, #0765e4);
+    background-image: -o-linear-gradient(to bottom, #108cee, #0765e4);
+    background-image: linear-gradient(to bottom, #108cee, #0765e4);
+    background-repeat: repeat;
+}
+#login .pass-button-submit:hover,
+#login .submit:hover {
+    color: #FFF;
+    background-image: -webkit-linear-gradient(top, #108cee, #014fde);
+    background-image: -moz-linear-gradient(top, #108cee, #014fde);
+    background-image: -moz-linear-gradient(to bottom, #108cee, #014fde);
+    background-image: -o-linear-gradient(to bottom, #108cee, #014fde);
+    background-image: linear-gradient(to bottom, #108cee, #014fde);
+    background-repeat: repeat;
+}
+#login a {
+    color: #333;
+}
+#login .other {
+    width: 300px;
+    margin: 19px auto 0 auto;
+}
+#login .pass-reglink {
+    margin: 19px 8px 0 20px;
+    padding-right: 8px;
+    border: none;
+}
+#login .pass-fgtpwd {
+    margin: 19px 20px 0 20px;
+    float: right;
+}
+#login .other a {
+    border: none;
+}
+#login .pass-form-item-verifyCode {
+    width: 300px;
+    margin: 0 auto 20px auto;
+}
+#login .uc-common-login-small .pass-form-item-verifyCode .pass-text-input-verifyCode {
+    border: 1px solid #CCC;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+#login .uc-common-login-small .pass-placeholder {
+    margin-top: 0;
+    top: 9px;
+}
+#login .uc-common-login-small .change-login .passport-account {
+    border-right: none;
+}
+.copyright {
+    padding: 20px;
+    color: #A0A0A0;
+    text-align: center;
+    font-size: 12px;
+    border-top: 1px solid #E5E5E5;
+}
+.copyright a {
+    color: #AAA;
+    text-decoration: none;
+}
+.copyright a:hover {
+    text-decoration: underline;
+}
+/*
+ * 协账号/子帐号登录页面样式
+*/
+.bce-user-login {
+    background: #F7F7F7;
+}
+
+.bce-user-login header {
+    height: 80px;
+    background: #FEFEFE;
+    border: none;
+}
+
+.bce-user-login header .container {
+    width: 1000px;
+}
+
+.bce-user-login header .logo {
+    margin-top: 18px;
+}
+
+.bce-user-login header a {
+    text-decoration: none;
+}
+
+.bce-user-login header span {
+    color: #666;
+    font-size: 18px;
+    position: relative;
+    top: 30px;
+    left: 10px;
+    padding-left: 10px;
+    border-left: 1px solid #CCC;
+}
+
+.bce-user-login header .back {
+    line-height: 80px;
+    color: #666;
+}
+
+.bce-user-login header .back:hover {
+    color: #666;
+    text-decoration: underline;
+}
+
+.bce-user-login .bce-login {
+    min-height: 600px;
+    background: #F7F7F7;
+}
+
+.bce-user-login .bce-login-wrap {
+    background: none;
+    min-height: 600px;
+}
+
+.bce-user-login .bce-login-inner {
+    width: 1000px;
+    min-height: 600px;
+    padding-bottom: 0;
+    background: url(../img/user-login.png) center center no-repeat;
+}
+
+.bce-user-login .bce-login-inner .login-box {
+    width: 380px;
+    margin: 80px auto 0 auto;
+}
+
+.bce-user-login .copyright {
+    background: #F7F7F7;
+    border: none;
+    padding: 40px;
+}
+
+.bce-user-login #login #common-login {
+    margin: 0;
+    border: none;
+}
+
+.bce-user-login #login .change-login {
+    height: 75px;
+}
+
+.bce-user-login #login .change-login .passport-account.select {
+    border: none;
+    color: #333;
+    font-size: 18px;
+    margin: 20px 0 0 40px;
+}
+
+.bce-user-login #login .pass-reglink,
+.bce-user-login #login .pass-fgtpwd {
+    display: none;
+}
+
+.bce-user-login #login #common-login form {
+    padding: 0 0 48px 0;
+}
+
+.bce-user-login #login .pass-button-submit {
+    background-image: none;
+    background: #09F;
+}
+
+.bce-user-login #login .pass-button-submit:hover {
+    background: #028BE6;
+}
+
+.bce-user-login .pass-label {
+    display: none;
+}
+
+.bce-user-login #login .uc-common-login-small .pass-form-item-userName,
+.bce-user-login #login .uc-common-login-small .pass-form-item-password {
+    border-width: 2px;
+    border-color: #DDD;
+    margin: 0 auto 18px auto;
+}
+
+.bce-user-login #login .custom-form-item-userName {
+    width: 276px;
+    height: 26px;
+    border: 2px solid #DDD;
+    margin: 0 auto 18px auto;
+    line-height: 26px;
+    background: #F7F7F7;
+    padding: 4px 9px;
+    color: #999;
+    -webkit-border-radius: 3px;
+       -moz-border-radius: 3px;
+            border-radius: 3px;
+}
+
+.bce-user-login #login .uc-common-login-small .pass-form-item-userName:hover,
+.bce-user-login #login .uc-common-login-small .pass-form-item-password:hover {
+    border-color: #09F;
+}
+
+.bce-user-login #login .uc-common-login-small .pass-form-item-userName input,
+.bce-user-login #login .uc-common-login-small .pass-form-item-password input {
+    width: 276px;
+    height: 26px;
+    line-height: 26px;
+}
+
+.bce-user-login .custom-login-label {
+    width: 298px;
+    margin: 0 auto 18px auto;
+    color: #666;
+}
+
+.bce-user-login #login .uc-common-login-small .pass-generalErrorWrapper {
+    top: 18px;
+}
+
+@media screen and (max-width: 1024px) {
+    header .container {
+        width: 100%;
+        max-width: 354px;
+    }
+
+    header .logo {
+        margin-left: 10px;
+    }
+
+    header .back {
+        display: none;
+    }
+
+    .bce-login {
+        min-height: unset;
+    }
+
+    .bce-login-wrap {
+        max-width: unset;
+        min-height: unset;
+    }
+
+    .bce-login-inner {
+        min-height: unset;
+    }
+
+    .bce-login-inner {
+        width: 90%;
+        max-width: 334px;
+        padding: 0;
+    }
+
+    .bce-login-inner > a {
+        display: none;
+    }
+
+    .bce-login-inner img.banner {
+        display: none;
+    }
+
+    .login-box {
+        width: auto;
+        margin: 20px auto;
+    }
+
+    #login #common-login {
+        padding: 0 16px;
+    }
+
+    #login .login {
+        width: auto;
+    }
+
+    #login .tang-pass-login {
+        width: auto;
+    }
+
+    #login .change-login a {
+        width: 50%;
+        margin: 0;
+    }
+
+    #login .change-login a.passport-account {
+        width: 50%;
+        margin: 0;
+    }
+
+    #login .uc-common-login-small .pass-generalErrorWrapper {
+        left: 0;
+    }
+
+    #login .uc-common-login-small .pass-form-item-userName,
+    #login .uc-common-login-small .pass-form-item-password,
+    #login .uc-common-login-small .account,
+    #login .uc-common-login-small .password {
+        width: 100%;
+        position: relative;
+    }
+
+    #login.uc-common-login .pass-form-item-submit {
+        padding: 0;
+    }
+
+    #login.uc-common-login .login-info,
+    #login.uc-common-login .login-action {
+        padding: 0;
+    }
+
+    #login .uc-common-login-small .pass-form-item-userName label,
+    #login .uc-common-login-small .pass-form-item-password label,
+    #login .uc-common-login-small .account span,
+    #login .uc-common-login-small .password span {
+        position: absolute;
+    }
+
+    #login .uc-common-login-small .pass-form-item-userName input,
+    #login .uc-common-login-small .pass-form-item-password input,
+    #login .uc-common-login-small .account input,
+    #login .uc-common-login-small .password input {
+        box-sizing: border-box;
+        width: 100%;
+        height: 36px;
+        line-height: 16px;
+        padding: 10px 9px;
+        padding-left: 34px !important;
+    }
+
+    #login .uc-common-login-small .safe-input {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    #login .uc-common-login-small .token {
+        width: auto;
+    }
+
+    #login .pass-button-submit,
+    #login .submit {
+        width: 100%;
+    }
+
+    #login .pass-reglink {
+        margin-left: 0;
+    }
+
+    #login .pass-fgtpwd {
+        margin-right: 0;
+    }
+
+    #login .tip-wrap {
+        width: auto;
+    }
+
+    #login .tip-wrap p {
+        width: auto;
+    }
+
+    #login .other {
+        width: auto;
+    }
+
+    .copyright.container {
+        width: 100%;
+        max-width: 334px;
+        padding: 16px 0;
+        line-height: 18px;
+    }
+
+    /* for collaborator */
+    .bce-user-login header .container {
+        width: 100%;
+    }
+
+    .bce-user-login .bce-login {
+        min-height: unset;
+    }
+
+    .bce-user-login .bce-login-wrap {
+        min-height: unset;
+    }
+
+    .bce-user-login .bce-login-inner {
+        width: 90%;
+        min-height: unset;
+    }
+
+    .bce-user-login .bce-login-inner .login-box {
+        width: auto;
+        margin: 20px auto;
+    }
+
+    .bce-user-login #login .change-login {
+        height: 50px;
+    }
+
+    .bce-user-login #login .change-login a.passport-account {
+        width: 100%;
+    }
+
+    .bce-user-login #login .change-login .passport-account.select {
+        margin: 0;
+    }
+
+    .bce-user-login #login #common-login form {
+        padding-bottom: 16px;
+    }
+
+    .bce-user-login #login .custom-form-item-userName {
+        box-sizing: border-box;
+        width: 100%;
+        height: 38px;
+    }
+
+    .bce-user-login #login .uc-common-login-small .pass-form-item-userName input,
+    .bce-user-login #login .uc-common-login-small .pass-form-item-password input {
+        width: 100%;
+        height: 34px;
+        line-height: 14px;
+        padding: 10px 9px !important;
+    }
+
+    .bce-user-login #login .switch-account {
+        margin-right: 0;
+    }
+
+    .bce-user-login .copyright {
+        padding: 20px;
+        line-height: 18px;
+    }
+
+    /* for fcm */
+    #fcm .bce-login-inner img.banner {
+        display: none;
+    }
+
+    #fcm #login #choose-uc-login {
+        width: 100%;
+        margin: 0;
+    }
+
+    #fcm .copyright {
+        line-height: 18px;
+    }
+}

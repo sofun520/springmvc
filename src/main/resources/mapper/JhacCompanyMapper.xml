@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacCompanyMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacCompany">
+		<id column="com_id" property="comId" jdbcType="INTEGER" />
+		<result column="com_name" property="comName" jdbcType="VARCHAR" />
+		<result column="com_group_id" property="comGroupId" jdbcType="INTEGER" />
+		<result column="com_network_code" property="comNetworkCode"
+			jdbcType="VARCHAR" />
+		<result column="com_status" property="comStatus" jdbcType="CHAR" />
+		<result column="com_add_id" property="comAddId" jdbcType="INTEGER" />
+		<result column="com_update_id" property="comUpdateId" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		com_id, com_name, com_group_id, com_network_code,
+		com_status, com_add_id,
+		com_update_id
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_company
+		where com_id = #{comId,jdbcType=INTEGER}
+	</select>
+
+	<sql id="sql4where">
+		<if test="groupId != null and groupId != ''">
+			and com_group_id = #{groupId}
+		</if>
+		<if test="networkCode != null and networkCode != ''">
+			and com_network_code = #{networkCode}
+		</if>
+		and com_status = '0'
+	</sql>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_company
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(*)
+		from jhac_company
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+
+
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from jhac_company
+		where
+		com_id = #{comId,jdbcType=INTEGER}
+	</delete>
+
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacCompany">
+		insert into jhac_company
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="comId != null">
+				com_id,
+			</if>
+			<if test="comName != null">
+				com_name,
+			</if>
+			<if test="comGroupId != null">
+				com_group_id,
+			</if>
+			<if test="comNetworkCode != null">
+				com_network_code,
+			</if>
+			<if test="comStatus != null">
+				com_status,
+			</if>
+			<if test="comAddId != null">
+				com_add_id,
+			</if>
+			<if test="comUpdateId != null">
+				com_update_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="comId != null">
+				#{comId,jdbcType=INTEGER},
+			</if>
+			<if test="comName != null">
+				#{comName,jdbcType=VARCHAR},
+			</if>
+			<if test="comGroupId != null">
+				#{comGroupId,jdbcType=INTEGER},
+			</if>
+			<if test="comNetworkCode != null">
+				#{comNetworkCode,jdbcType=VARCHAR},
+			</if>
+			<if test="comStatus != null">
+				#{comStatus,jdbcType=CHAR},
+			</if>
+			<if test="comAddId != null">
+				#{comAddId,jdbcType=INTEGER},
+			</if>
+			<if test="comUpdateId != null">
+				#{comUpdateId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacCompany">
+		update jhac_company
+		<set>
+			<if test="comName != null">
+				com_name = #{comName,jdbcType=VARCHAR},
+			</if>
+			<if test="comGroupId != null">
+				com_group_id = #{comGroupId,jdbcType=INTEGER},
+			</if>
+			<if test="comNetworkCode != null">
+				com_network_code = #{comNetworkCode,jdbcType=VARCHAR},
+			</if>
+			<if test="comStatus != null">
+				com_status = #{comStatus,jdbcType=CHAR},
+			</if>
+			<if test="comAddId != null">
+				com_add_id = #{comAddId,jdbcType=INTEGER},
+			</if>
+			<if test="comUpdateId != null">
+				com_update_id = #{comUpdateId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where com_id = #{comId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacProductClassMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacProductClass">
+		<id column="pc_id" property="pcId" jdbcType="INTEGER" />
+		<result column="pc_name" property="pcName" jdbcType="VARCHAR" />
+		<result column="pc_xinghao" property="pcXinghao" jdbcType="VARCHAR" />
+		<result column="pc_price" property="pcPrice" jdbcType="DECIMAL" />
+		<result column="pc_status" property="pcStatus" jdbcType="CHAR" />
+		<result column="pc_create_id" property="pcCreateId" jdbcType="INTEGER" />
+		<result column="pc_create_date" property="pcCreateDate"
+			jdbcType="TIMESTAMP" />
+		<result column="pc_update_id" property="pcUpdateId" jdbcType="INTEGER" />
+		<result column="pc_update_date" property="pcUpdateDate"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		pc_id, pc_name, pc_xinghao, pc_price, pc_status,
+		pc_create_id,
+		pc_create_date, pc_update_id,
+		pc_update_date
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_product_class
+		where pc_id = #{pcId,jdbcType=INTEGER}
+	</select>
+
+	<sql id="sql4where">
+		and pc_status = '0'
+	</sql>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_product_class
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(*)
+		from jhac_product_class
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		update jhac_product_class set
+		pc_status = '1'
+		where pc_id = #{pcId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacProductClass">
+		insert into jhac_product_class
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="pcId != null">
+				pc_id,
+			</if>
+			<if test="pcName != null">
+				pc_name,
+			</if>
+			<if test="pcXinghao != null">
+				pc_xinghao,
+			</if>
+			<if test="pcPrice != null">
+				pc_price,
+			</if>
+			<if test="pcStatus != null">
+				pc_status,
+			</if>
+			<if test="pcCreateId != null">
+				pc_create_id,
+			</if>
+			<if test="pcCreateDate != null">
+				pc_create_date,
+			</if>
+			<if test="pcUpdateId != null">
+				pc_update_id,
+			</if>
+			<if test="pcUpdateDate != null">
+				pc_update_date,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pcId != null">
+				#{pcId,jdbcType=INTEGER},
+			</if>
+			<if test="pcName != null">
+				#{pcName,jdbcType=VARCHAR},
+			</if>
+			<if test="pcXinghao != null">
+				#{pcXinghao,jdbcType=VARCHAR},
+			</if>
+			<if test="pcPrice != null">
+				#{pcPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="pcStatus != null">
+				#{pcStatus,jdbcType=CHAR},
+			</if>
+			<if test="pcCreateId != null">
+				#{pcCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="pcCreateDate != null">
+				#{pcCreateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pcUpdateId != null">
+				#{pcUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="pcUpdateDate != null">
+				#{pcUpdateDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacProductClass">
+		update jhac_product_class
+		<set>
+			<if test="pcName != null">
+				pc_name = #{pcName,jdbcType=VARCHAR},
+			</if>
+			<if test="pcXinghao != null">
+				pc_xinghao = #{pcXinghao,jdbcType=VARCHAR},
+			</if>
+			<if test="pcPrice != null">
+				pc_price = #{pcPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="pcStatus != null">
+				pc_status = #{pcStatus,jdbcType=CHAR},
+			</if>
+			<if test="pcCreateId != null">
+				pc_create_id = #{pcCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="pcCreateDate != null">
+				pc_create_date = #{pcCreateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="pcUpdateId != null">
+				pc_update_id = #{pcUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="pcUpdateDate != null">
+				pc_update_date = #{pcUpdateDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where pc_id = #{pcId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

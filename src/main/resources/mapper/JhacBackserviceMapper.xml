@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacBackserviceMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacBackservice">
+		<id column="bc_id" property="bcId" jdbcType="INTEGER" />
+		<result column="bc_out_id" property="bcOutId" jdbcType="INTEGER" />
+		<result column="bc_fault" property="bcFault" jdbcType="VARCHAR" />
+		<result column="bc_resolvent" property="bcResolvent" jdbcType="VARCHAR" />
+		<result column="bc_status" property="bcStatus" jdbcType="CHAR" />
+		<result column="bc_network" property="bcNetwork" jdbcType="VARCHAR" />
+		<result column="bc_resolve_id" property="bcResolveId" jdbcType="INTEGER" />
+		<result column="bc_resolve_time" property="bcResolveTime"
+			jdbcType="TIMESTAMP" />
+		<result column="bc_create_id" property="bcCreateId" jdbcType="INTEGER" />
+		<result column="bc_create_date" property="bcCreateDate"
+			jdbcType="TIMESTAMP" />
+		<result column="bc_update_id" property="bcUpdateId" jdbcType="INTEGER" />
+		<result column="bc_update_time" property="bcUpdateTime"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		bc_id, bc_out_id, bc_fault, bc_resolvent, bc_status,
+		bc_network,
+		bc_resolve_id, bc_resolve_time,
+		bc_create_id,
+		bc_create_date, bc_update_id, bc_update_time
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_backservice
+		where bc_id = #{bcId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_backservice
+		where 1=1
+	</select>
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(*)
+		from jhac_backservice
+		where 1=1
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from jhac_backservice
+		where bc_id = #{bcId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacBackservice">
+		insert into jhac_backservice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bcId != null">
+				bc_id,
+			</if>
+			<if test="bcOutId != null">
+				bc_out_id,
+			</if>
+			<if test="bcFault != null">
+				bc_fault,
+			</if>
+			<if test="bcResolvent != null">
+				bc_resolvent,
+			</if>
+			<if test="bcStatus != null">
+				bc_status,
+			</if>
+			<if test="bcNetwork != null">
+				bc_network,
+			</if>
+			<if test="bcResolveId != null">
+				bc_resolve_id,
+			</if>
+			<if test="bcResolveTime != null">
+				bc_resolve_time,
+			</if>
+			<if test="bcCreateId != null">
+				bc_create_id,
+			</if>
+			<if test="bcCreateDate != null">
+				bc_create_date,
+			</if>
+			<if test="bcUpdateId != null">
+				bc_update_id,
+			</if>
+			<if test="bcUpdateTime != null">
+				bc_update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bcId != null">
+				#{bcId,jdbcType=INTEGER},
+			</if>
+			<if test="bcOutId != null">
+				#{bcOutId,jdbcType=INTEGER},
+			</if>
+			<if test="bcFault != null">
+				#{bcFault,jdbcType=VARCHAR},
+			</if>
+			<if test="bcResolvent != null">
+				#{bcResolvent,jdbcType=VARCHAR},
+			</if>
+			<if test="bcStatus != null">
+				#{bcStatus,jdbcType=CHAR},
+			</if>
+			<if test="bcNetwork != null">
+				#{bcNetwork,jdbcType=VARCHAR},
+			</if>
+			<if test="bcResolveId != null">
+				#{bcResolveId,jdbcType=INTEGER},
+			</if>
+			<if test="bcResolveTime != null">
+				#{bcResolveTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="bcCreateId != null">
+				#{bcCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="bcCreateDate != null">
+				#{bcCreateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="bcUpdateId != null">
+				#{bcUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="bcUpdateTime != null">
+				#{bcUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacBackservice">
+		update jhac_backservice
+		<set>
+			<if test="bcOutId != null">
+				bc_out_id = #{bcOutId,jdbcType=INTEGER},
+			</if>
+			<if test="bcFault != null">
+				bc_fault = #{bcFault,jdbcType=VARCHAR},
+			</if>
+			<if test="bcResolvent != null">
+				bc_resolvent = #{bcResolvent,jdbcType=VARCHAR},
+			</if>
+			<if test="bcStatus != null">
+				bc_status = #{bcStatus,jdbcType=CHAR},
+			</if>
+			<if test="bcNetwork != null">
+				bc_network = #{bcNetwork,jdbcType=VARCHAR},
+			</if>
+			<if test="bcResolveId != null">
+				bc_resolve_id = #{bcResolveId,jdbcType=INTEGER},
+			</if>
+			<if test="bcResolveTime != null">
+				bc_resolve_time = #{bcResolveTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="bcCreateId != null">
+				bc_create_id = #{bcCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="bcCreateDate != null">
+				bc_create_date = #{bcCreateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="bcUpdateId != null">
+				bc_update_id = #{bcUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="bcUpdateTime != null">
+				bc_update_time = #{bcUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where bc_id = #{bcId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

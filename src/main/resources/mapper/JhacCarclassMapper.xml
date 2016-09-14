@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacCarclassMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacCarclass">
+		<id column="cc_id" property="ccId" jdbcType="INTEGER" />
+		<result column="cc_name" property="ccName" jdbcType="VARCHAR" />
+		<result column="cc_com_id" property="ccComId" jdbcType="INTEGER" />
+		<result column="cc_status" property="ccStatus" jdbcType="CHAR" />
+		<result column="cc_network_code" property="ccNetworkCode"
+			jdbcType="VARCHAR" />
+		<result column="cc_create_id" property="ccCreateId" jdbcType="INTEGER" />
+		<result column="cc_create_time" property="ccCreateTime"
+			jdbcType="TIMESTAMP" />
+		<result column="cc_update_id" property="ccUpdateId" jdbcType="INTEGER" />
+		<result column="cc_update_time" property="ccUpdateTime"
+			jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		cc_id, cc_name, cc_com_id, cc_status, cc_network_code,
+		cc_create_id,
+		cc_create_time,
+		cc_update_id, cc_update_time
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_carclass
+		where cc_id = #{ccId,jdbcType=INTEGER}
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		update jhac_carclass set
+		cc_status = '1'
+		where cc_id = #{ccId,jdbcType=INTEGER}
+	</delete>
+
+	<sql id="sql4where">
+		<if test="networkCode != null and networkCode != ''">
+			and cc_network_code = #{networkCode}
+		</if>
+		<if test="comId != null and comId != ''">
+			and cc_com_id = #{comId}
+		</if>
+		and cc_status = '0'
+	</sql>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_carclass
+		where 1=1
+		<include refid="sql4where" />
+		<if test="pageSize != null and pageSize != ''">
+			limit #{startIndex},#{pageSize}
+		</if>
+	</select>
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(*)
+		from jhac_carclass
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacCarclass">
+		insert into jhac_carclass
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ccId != null">
+				cc_id,
+			</if>
+			<if test="ccName != null">
+				cc_name,
+			</if>
+			<if test="ccComId != null">
+				cc_com_id,
+			</if>
+			<if test="ccStatus != null">
+				cc_status,
+			</if>
+			<if test="ccNetworkCode != null">
+				cc_network_code,
+			</if>
+			<if test="ccCreateId != null">
+				cc_create_id,
+			</if>
+			<if test="ccCreateTime != null">
+				cc_create_time,
+			</if>
+			<if test="ccUpdateId != null">
+				cc_update_id,
+			</if>
+			<if test="ccUpdateTime != null">
+				cc_update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ccId != null">
+				#{ccId,jdbcType=INTEGER},
+			</if>
+			<if test="ccName != null">
+				#{ccName,jdbcType=VARCHAR},
+			</if>
+			<if test="ccComId != null">
+				#{ccComId,jdbcType=INTEGER},
+			</if>
+			<if test="ccStatus != null">
+				#{ccStatus,jdbcType=CHAR},
+			</if>
+			<if test="ccNetworkCode != null">
+				#{ccNetworkCode,jdbcType=VARCHAR},
+			</if>
+			<if test="ccCreateId != null">
+				#{ccCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="ccCreateTime != null">
+				#{ccCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="ccUpdateId != null">
+				#{ccUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="ccUpdateTime != null">
+				#{ccUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacCarclass">
+		update jhac_carclass
+		<set>
+			<if test="ccName != null">
+				cc_name = #{ccName,jdbcType=VARCHAR},
+			</if>
+			<if test="ccComId != null">
+				cc_com_id = #{ccComId,jdbcType=INTEGER},
+			</if>
+			<if test="ccStatus != null">
+				cc_status = #{ccStatus,jdbcType=CHAR},
+			</if>
+			<if test="ccNetworkCode != null">
+				cc_network_code = #{ccNetworkCode,jdbcType=VARCHAR},
+			</if>
+			<if test="ccCreateId != null">
+				cc_create_id = #{ccCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="ccCreateTime != null">
+				cc_create_time = #{ccCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="ccUpdateId != null">
+				cc_update_id = #{ccUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="ccUpdateTime != null">
+				cc_update_time = #{ccUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where cc_id = #{ccId,jdbcType=INTEGER}
+	</update>
+
+
+</mapper>

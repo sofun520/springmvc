@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacOutMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacOut">
+		<id column="o_id" property="oId" jdbcType="INTEGER" />
+		<result column="o_car_class" property="oCarClass" jdbcType="INTEGER" />
+		<result column="o_serialno" property="oSerialno" jdbcType="VARCHAR" />
+		<result column="o_frameno" property="oFrameno" jdbcType="VARCHAR" />
+		<result column="o_product_img" property="oProductImg" jdbcType="VARCHAR" />
+		<result column="o_is_check_car" property="oIsCheckCar"
+			jdbcType="CHAR" />
+		<result column="o_is_test_car" property="oIsTestCar" jdbcType="CHAR" />
+		<result column="o_is_sign" property="oIsSign" jdbcType="CHAR" />
+		<result column="o_serialno_img" property="oSerialnoImg"
+			jdbcType="VARCHAR" />
+		<result column="o_frameno_img" property="oFramenoImg" jdbcType="VARCHAR" />
+		<result column="o_person" property="oPerson" jdbcType="INTEGER" />
+		<result column="o_address" property="oAddress" jdbcType="INTEGER" />
+		<result column="o_auth_telephone" property="oAuthTelephone"
+			jdbcType="VARCHAR" />
+		<result column="o_remark" property="oRemark" jdbcType="VARCHAR" />
+		<result column="o_network" property="oNetwork" jdbcType="VARCHAR" />
+		<result column="o_status" property="oStatus" jdbcType="CHAR" />
+		<result column="o_create_id" property="oCreateId" jdbcType="INTEGER" />
+		<result column="o_create_time" property="oCreateTime" jdbcType="TIMESTAMP" />
+		<result column="o_update_id" property="oUpdateId" jdbcType="INTEGER" />
+		<result column="o_update_time" property="oUpdateTime" jdbcType="TIMESTAMP" />
+
+		<association property="user" javaType="cn.springmvc.model.JhacUser">
+			<id column="u_id" property="uId" jdbcType="INTEGER" />
+			<result column="u_name" property="uName" jdbcType="VARCHAR" />
+			<result column="u_truename" property="uTruename" jdbcType="VARCHAR" />
+			<result column="u_telephone" property="uTelephone" jdbcType="VARCHAR" />
+		</association>
+
+		<association property="carClass" javaType="cn.springmvc.model.JhacCarclass">
+			<id column="cc_id" property="ccId" jdbcType="INTEGER" />
+			<result column="cc_name" property="ccName" jdbcType="VARCHAR" />
+		</association>
+
+		<association property="com" javaType="cn.springmvc.model.JhacCompany">
+			<id column="com_id" property="comId" jdbcType="INTEGER" />
+			<result column="com_name" property="comName" jdbcType="VARCHAR" />
+		</association>
+	</resultMap>
+
+	<resultMap id="tongjiMap" type="cn.springmvc.model.Tongji">
+		<result column="n_name" property="nName" jdbcType="VARCHAR"
+			typeHandler="cn.springmvc.util.EmptyStringIfNull" />
+		<result column="o_network" property="oNetwork" jdbcType="VARCHAR"
+			typeHandler="cn.springmvc.util.EmptyStringIfNull" />
+		<result column="com_name" property="comName" jdbcType="VARCHAR"
+			typeHandler="cn.springmvc.util.EmptyStringIfNull" />
+		<result column="cc_name" property="ccName" jdbcType="VARCHAR"
+			typeHandler="cn.springmvc.util.EmptyStringIfNull" />
+		<result column="count" property="count" jdbcType="INTEGER" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		o_id, o_car_class, o_serialno, o_frameno, o_product_img,
+		o_is_check_car,
+		o_is_test_car,
+		o_is_sign, o_serialno_img, o_frameno_img,
+		o_person, o_address, o_auth_telephone,
+		o_remark, o_network, o_status,
+		o_create_id, o_create_time,
+		o_update_id, o_update_time
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_out
+		where o_id = #{oId,jdbcType=INTEGER}
+	</select>
+
+	<sql id="sql4where">
+		<if test="out.oSerialno != null and out.oSerialno != ''">
+			and un1.o_serialno like '%${out.oSerialno}%'
+		</if>
+		<if test="out.oFrameno != null and out.oFrameno != ''">
+			and un1.o_frameno like '%${out.oFrameno}%'
+		</if>
+		<if test="out.oAddress != null and out.oAddress !=''">
+			and un1.o_address = #{out.oAddress,jdbcType=INTEGER}
+		</if>
+		<if test="out.oNetwork != null and out.oNetwork !=''">
+			and un1.o_network = #{out.oNetwork,jdbcType=VARCHAR}
+		</if>
+	</sql>
+	
+	<select id="monthSale" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					(
+						SELECT
+							*
+						FROM
+							`jhac_out` o
+						LEFT OUTER JOIN jhac_carclass cc ON o.o_car_class = cc.cc_id
+						AND cc.cc_network_code = #{networkCode}
+						WHERE
+							YEAR (o.o_create_time) = #{year}
+						AND MONTH (o.o_create_time) = #{month}
+						<if test="address != null and address != ''">
+							AND o_address= #{address}
+						</if>
+						ORDER BY
+							o.o_create_time
+					) AS un2
+				LEFT OUTER JOIN jhac_user u ON un2.o_person = u.u_id
+			) AS un1
+		LEFT OUTER JOIN jhac_company c ON un1.o_address = c.com_id
+	</select>
+
+	<select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select * from (
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		*
+		FROM
+		`jhac_out` o
+		LEFT OUTER JOIN
+		jhac_carclass cc ON (
+		o.o_car_class = cc.cc_id
+		AND cc.cc_network_code =
+		#{out.oNetwork}
+		)
+		) AS un2
+		LEFT OUTER JOIN jhac_user u ON un2.o_person =
+		u.u_id
+		) as un1
+		LEFT OUTER JOIN jhac_company c on un1.o_address=c.com_id
+		where 1=1
+		<include refid="sql4where" />
+		<if test="pageSize != null and pageSize != ''">
+			limit #{startIndex},#{pageSize}
+		</if>
+	</select>
+	
+	<select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+		select count(*) from (
+		SELECT
+		*
+		FROM
+		(
+		SELECT
+		*
+		FROM
+		`jhac_out` o
+		LEFT OUTER
+		JOIN jhac_carclass cc ON (
+		o.o_car_class = cc.cc_id
+		AND
+		cc.cc_network_code = 'JZ'
+		)
+		) AS un2
+		LEFT OUTER JOIN jhac_user u ON
+		un2.o_person = u.u_id
+		) as un1
+		LEFT OUTER JOIN jhac_company c on
+		un1.o_address=c.com_id
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+
+	<select id="companySale" parameterType="java.util.Map"
+		resultMap="tongjiMap">
+		SELECT
+		com.com_name,ou.count
+		FROM
+		(
+		SELECT
+		o.o_address,
+		count(*) AS count
+		FROM
+		jhac_out o
+		WHERE
+		date_format(o.o_create_time, '%Y-%m-%d') &gt;= #{startDate}
+		AND date_format(o.o_create_time, '%Y-%m-%d') &lt; #{endDate}
+		AND o.o_network = #{network}
+		GROUP BY
+		o.o_address
+		) AS ou
+		LEFT OUTER JOIN jhac_company com ON ou.o_address = com.com_id
+	</select>
+
+	<select id="networkSale" parameterType="java.util.Map"
+		resultMap="tongjiMap">
+		SELECT
+		n.n_name,
+		ou.o_network,
+		ou.count
+		FROM
+		(
+		SELECT
+		o.o_network,
+		count(*) AS count
+		FROM
+		jhac_out o
+		WHERE
+		date_format(o.o_create_time, '%Y-%m-%d') &gt;= #{startDate}
+		AND date_format(o.o_create_time, '%Y-%m-%d') &lt; #{endDate}
+		GROUP BY
+		o.o_network
+		) AS ou
+		LEFT OUTER JOIN jhac_network n ON ou.o_network = n.n_code
+	</select>
+
+	<select id="carclassSale" parameterType="java.util.Map"
+		resultMap="tongjiMap">
+		SELECT
+		cc.cc_name,
+		ou.count
+		FROM
+		(
+		SELECT
+		o.o_car_class,
+		count(*) AS count
+		FROM
+		jhac_out o
+		WHERE
+		date_format(o.o_create_time, '%Y-%m-%d') &gt;= #{startDate}
+		AND date_format(o.o_create_time, '%Y-%m-%d') &lt; #{endDate}
+		AND o.o_network = #{network}
+		GROUP BY
+		o.o_car_class
+		) AS ou
+		LEFT OUTER JOIN jhac_carclass cc ON ou.o_car_class = cc.cc_id
+	</select>
+
+
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from jhac_out
+		where o_id
+		= #{oId,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacOut">
+		insert into jhac_out
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="oId != null">
+				o_id,
+			</if>
+			<if test="oCarClass != null">
+				o_car_class,
+			</if>
+			<if test="oSerialno != null">
+				o_serialno,
+			</if>
+			<if test="oFrameno != null">
+				o_frameno,
+			</if>
+			<if test="oProductImg != null">
+				o_product_img,
+			</if>
+			<if test="oIsCheckCar != null">
+				o_is_check_car,
+			</if>
+			<if test="oIsTestCar != null">
+				o_is_test_car,
+			</if>
+			<if test="oIsSign != null">
+				o_is_sign,
+			</if>
+			<if test="oSerialnoImg != null">
+				o_serialno_img,
+			</if>
+			<if test="oFramenoImg != null">
+				o_frameno_img,
+			</if>
+			<if test="oPerson != null">
+				o_person,
+			</if>
+			<if test="oAddress != null">
+				o_address,
+			</if>
+			<if test="oAuthTelephone != null">
+				o_auth_telephone,
+			</if>
+			<if test="oRemark != null">
+				o_remark,
+			</if>
+			<if test="oNetwork != null">
+				o_network,
+			</if>
+			<if test="oStatus != null">
+				o_status,
+			</if>
+			<if test="oCreateId != null">
+				o_create_id,
+			</if>
+			<if test="oCreateTime != null">
+				o_create_time,
+			</if>
+			<if test="oUpdateId != null">
+				o_update_id,
+			</if>
+			<if test="oUpdateTime != null">
+				o_update_time,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="oId != null">
+				#{oId,jdbcType=INTEGER},
+			</if>
+			<if test="oCarClass != null">
+				#{oCarClass,jdbcType=INTEGER},
+			</if>
+			<if test="oSerialno != null">
+				#{oSerialno,jdbcType=VARCHAR},
+			</if>
+			<if test="oFrameno != null">
+				#{oFrameno,jdbcType=VARCHAR},
+			</if>
+			<if test="oProductImg != null">
+				#{oProductImg,jdbcType=VARCHAR},
+			</if>
+			<if test="oIsCheckCar != null">
+				#{oIsCheckCar,jdbcType=CHAR},
+			</if>
+			<if test="oIsTestCar != null">
+				#{oIsTestCar,jdbcType=CHAR},
+			</if>
+			<if test="oIsSign != null">
+				#{oIsSign,jdbcType=CHAR},
+			</if>
+			<if test="oSerialnoImg != null">
+				#{oSerialnoImg,jdbcType=VARCHAR},
+			</if>
+			<if test="oFramenoImg != null">
+				#{oFramenoImg,jdbcType=VARCHAR},
+			</if>
+			<if test="oPerson != null">
+				#{oPerson,jdbcType=INTEGER},
+			</if>
+			<if test="oAddress != null">
+				#{oAddress,jdbcType=INTEGER},
+			</if>
+			<if test="oAuthTelephone != null">
+				#{oAuthTelephone,jdbcType=VARCHAR},
+			</if>
+			<if test="oRemark != null">
+				#{oRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="oNetwork != null">
+				#{oNetwork,jdbcType=VARCHAR},
+			</if>
+			<if test="oStatus != null">
+				#{oStatus,jdbcType=CHAR},
+			</if>
+			<if test="oCreateId != null">
+				#{oCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="oCreateTime != null">
+				#{oCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="oUpdateId != null">
+				#{oUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="oUpdateTime != null">
+				#{oUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacOut">
+		update jhac_out
+		<set>
+			<if test="oCarClass != null">
+				o_car_class = #{oCarClass,jdbcType=INTEGER},
+			</if>
+			<if test="oSerialno != null">
+				o_serialno = #{oSerialno,jdbcType=VARCHAR},
+			</if>
+			<if test="oFrameno != null">
+				o_frameno = #{oFrameno,jdbcType=VARCHAR},
+			</if>
+			<if test="oProductImg != null">
+				o_product_img = #{oProductImg,jdbcType=VARCHAR},
+			</if>
+			<if test="oIsCheckCar != null">
+				o_is_check_car = #{oIsCheckCar,jdbcType=CHAR},
+			</if>
+			<if test="oIsTestCar != null">
+				o_is_test_car = #{oIsTestCar,jdbcType=CHAR},
+			</if>
+			<if test="oIsSign != null">
+				o_is_sign = #{oIsSign,jdbcType=CHAR},
+			</if>
+			<if test="oSerialnoImg != null">
+				o_serialno_img = #{oSerialnoImg,jdbcType=VARCHAR},
+			</if>
+			<if test="oFramenoImg != null">
+				o_frameno_img = #{oFramenoImg,jdbcType=VARCHAR},
+			</if>
+			<if test="oPerson != null">
+				o_person = #{oPerson,jdbcType=INTEGER},
+			</if>
+			<if test="oAddress != null">
+				o_address = #{oAddress,jdbcType=INTEGER},
+			</if>
+			<if test="oAuthTelephone != null">
+				o_auth_telephone = #{oAuthTelephone,jdbcType=VARCHAR},
+			</if>
+			<if test="oRemark != null">
+				o_remark = #{oRemark,jdbcType=VARCHAR},
+			</if>
+			<if test="oNetwork != null">
+				o_network = #{oNetwork,jdbcType=VARCHAR},
+			</if>
+			<if test="oStatus != null">
+				o_status = #{oStatus,jdbcType=CHAR},
+			</if>
+			<if test="oCreateId != null">
+				o_create_id = #{oCreateId,jdbcType=INTEGER},
+			</if>
+			<if test="oCreateTime != null">
+				o_create_time = #{oCreateTime,jdbcType=TIMESTAMP},
+			</if>
+			<if test="oUpdateId != null">
+				o_update_id = #{oUpdateId,jdbcType=INTEGER},
+			</if>
+			<if test="oUpdateTime != null">
+				o_update_time = #{oUpdateTime,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where o_id = #{oId,jdbcType=INTEGER}
+	</update>
+
+
+
+</mapper>

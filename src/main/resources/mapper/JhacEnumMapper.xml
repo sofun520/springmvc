@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.JhacEnumMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.JhacEnum">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="enum_key" property="enumKey" jdbcType="VARCHAR" />
+		<result column="enum_value" property="enumValue" jdbcType="VARCHAR" />
+		<result column="enum_code" property="enumCode" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		id, enum_key, enum_value, enum_code
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_enum
+		where id = #{id,jdbcType=INTEGER}
+	</select>
+
+	<sql id="sql4where">
+		<if test="enumCode != null and enumCode != ''">
+			and enum_code = #{enumCode}
+		</if>
+	</sql>
+
+	<select id="query" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from jhac_enum
+		where 1=1
+		<include refid="sql4where" />
+		<if test="pageSize != null and pageSize != ''">
+			limit #{startIndex},#{pageSize}
+		</if>
+	</select>
+
+	<select id="count" resultType="java.lang.Integer" parameterType="java.util.Map">
+		select
+		count(*)
+		from jhac_enum
+		where 1=1
+		<include refid="sql4where" />
+	</select>
+
+
+	<select id="queryGroup" resultMap="BaseResultMap" parameterType="java.util.Map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		`jhac_enum`
+		GROUP BY
+		enum_code
+	</select>
+
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from jhac_enum
+		where id
+		= #{id,jdbcType=INTEGER}
+	</delete>
+
+
+	<insert id="insert" parameterType="cn.springmvc.model.JhacEnum">
+		insert into jhac_enum
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="enumKey != null">
+				enum_key,
+			</if>
+			<if test="enumValue != null">
+				enum_value,
+			</if>
+			<if test="enumCode != null">
+				enum_code,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="enumKey != null">
+				#{enumKey,jdbcType=VARCHAR},
+			</if>
+			<if test="enumValue != null">
+				#{enumValue,jdbcType=VARCHAR},
+			</if>
+			<if test="enumCode != null">
+				#{enumCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.JhacEnum">
+		update jhac_enum
+		<set>
+			<if test="enumKey != null">
+				enum_key = #{enumKey,jdbcType=VARCHAR},
+			</if>
+			<if test="enumValue != null">
+				enum_value = #{enumValue,jdbcType=VARCHAR},
+			</if>
+			<if test="enumCode != null">
+				enum_code = #{enumCode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=INTEGER}
+	</update>
+
+</mapper>

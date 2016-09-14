@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.springmvc.dao.RoleMenuMapper">
+	<resultMap id="BaseResultMap" type="cn.springmvc.model.RoleMenu">
+		<id column="rm_id" property="rmId" jdbcType="INTEGER" />
+		<result column="rm_role_id" property="rmRoleId" jdbcType="INTEGER" />
+		<result column="rm_menu_id" property="rmMenuId" jdbcType="INTEGER" />
+
+		<association property="role" javaType="cn.springmvc.model.Role">
+			<id column="role_id" property="roleId" jdbcType="INTEGER" />
+			<result column="role_name" property="roleName" jdbcType="VARCHAR" />
+		</association>
+
+		<association property="menu" javaType="cn.springmvc.model.Menu">
+			<id column="menu_id" property="menuId" jdbcType="INTEGER" />
+			<result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+			<result column="menu_url" property="menuUrl" jdbcType="VARCHAR" />
+			<result column="menu_parent" property="menuParent" jdbcType="INTEGER" />
+		</association>
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		rm_id, rm_role_id, rm_menu_id
+	</sql>
+
+	<select id="find" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="Base_Column_List" />
+		from role_menu
+		where rm_id = #{rmId,jdbcType=INTEGER}
+	</select>
+
+	<select id="query" parameterType="java.util.Map" resultMap="BaseResultMap">
+		SELECT
+		*
+		FROM
+		`role_menu` rm,
+		role r,
+		menu m
+		WHERE
+		rm.rm_menu_id = m.menu_id
+		AND rm.rm_role_id = r.role_id
+		<if test="roleId != null and roleId != ''">
+			and rm.rm_role_id = #{roleId}
+		</if>
+		<if test="pageSize != null and pageSize != ''">
+			limit #{startIndex},#{pageSize}
+		</if>
+	</select>
+
+	<select id="count" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+		count(*)
+		FROM
+		`role_menu` rm,
+		role r,
+		menu m
+		WHERE
+		rm.rm_menu_id =
+		m.menu_id
+		AND rm.rm_role_id = r.role_id
+		<if test="roleId != null and roleId != ''">
+			and rm.rm_role_id = #{roleId}
+		</if>
+	</select>
+	
+	<select id="queryMenu" parameterType="java.util.Map" resultType="cn.springmvc.model.RoleMenuApi">
+		SELECT
+			m.menu_id AS id,
+			CASE
+		WHEN m.menu_parent IS NOT NULL THEN
+			m.menu_parent
+		WHEN m.menu_parent IS NULL THEN
+			'0'
+		END AS pId,
+		 m.menu_name AS `name`,
+		 CASE
+		WHEN rm.rm_menu_id IS NOT NULL THEN
+			'true'
+		WHEN rm.rm_menu_id IS NULL THEN
+			'false'
+		END AS `checked`
+		FROM
+			`menu` m
+		LEFT OUTER JOIN role_menu rm ON m.menu_id = rm.rm_menu_id
+		AND rm.rm_role_id = #{roleId}
+	</select>
+
+	<delete id="delete" parameterType="java.lang.Integer">
+		delete from role_menu
+		where
+		rm_id = #{rmId,jdbcType=INTEGER}
+	</delete>
+	
+	<delete id="deleteByMap" parameterType="java.util.Map">
+		delete from role_menu
+		where
+		rm_role_id = #{roleId}
+	</delete>
+
+	<insert id="insertList" parameterType="java.util.Map">
+		insert into role_menu (rm_role_id,rm_menu_id) values
+		<foreach collection="roleMenuLsit" item="item" index="index"
+			separator=",">
+			(#{item.rmRoleId,jdbcType=INTEGER},#{item.rmMenuId,jdbcType=INTEGER})
+		</foreach>
+	</insert>
+
+	<insert id="insert" parameterType="cn.springmvc.model.RoleMenu">
+		insert into role_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="rmId != null">
+				rm_id,
+			</if>
+			<if test="rmRoleId != null">
+				rm_role_id,
+			</if>
+			<if test="rmMenuId != null">
+				rm_menu_id,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="rmId != null">
+				#{rmId,jdbcType=INTEGER},
+			</if>
+			<if test="rmRoleId != null">
+				#{rmRoleId,jdbcType=INTEGER},
+			</if>
+			<if test="rmMenuId != null">
+				#{rmMenuId,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="cn.springmvc.model.RoleMenu">
+		update role_menu
+		<set>
+			<if test="rmRoleId != null">
+				rm_role_id = #{rmRoleId,jdbcType=INTEGER},
+			</if>
+			<if test="rmMenuId != null">
+				rm_menu_id = #{rmMenuId,jdbcType=INTEGER},
+			</if>
+		</set>
+		where rm_id = #{rmId,jdbcType=INTEGER}
+	</update>
+	
+
+</mapper>
