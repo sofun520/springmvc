@@ -1,6 +1,8 @@
 package cn.springmvc.model;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class JhacOut {
 	private Integer oId;
@@ -254,4 +256,27 @@ public class JhacOut {
 	public void setoUpdateTime(Date oUpdateTime) {
 		this.oUpdateTime = oUpdateTime;
 	}
+
+	/*public JhacOut(String oSerialno, String oFrameno, Integer oAddress,
+			Date oCreateTime) {
+		this.oSerialno = oSerialno;
+		this.oFrameno = oFrameno;
+		this.oAddress = oAddress;
+		this.oCreateTime = oCreateTime;
+	}
+
+	public static List<JhacOut> getList() {
+		List<JhacOut> list = new ArrayList<JhacOut>();
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		list.add(new JhacOut("sdfdsf", "sdfsdfdsf", 12, new Date()));
+		return list;
+	}*/
 }
